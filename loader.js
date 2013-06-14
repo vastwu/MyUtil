@@ -12,22 +12,28 @@
         script.onerror = onerror;
         document.body.appendChild(script);
     };
+    var eventHandlerStorage = {};
+    var idIndex = 0;
     var Event = {
         on:function(evt, handler){
-            if(!this.events){
-                this.events = {};
+            if(!this._eid){
+                this._eid = 'eid' + (++idIndex);
+                eventHandlerStorage[this._eid] = {};
             }
-            if(!this.events[evt]){
-                this.events[evt] = [];
+            var handlers = eventHandlerStorage[this._eid];
+            if(!handlers[evt]){
+                handlers[evt] = [];
             }
-            this.events[evt].push(handler);
+            handlers[evt].push(handler);
             return handler;
         },
         off:function(evt, handler){
-            if(!this.events[evt]){
+            if(!this._eid || 
+                !eventHandlerStorage[this._eid] || 
+                !eventHandlerStorage[this._eid][evt]){
                 return;
             }
-            var es = this.events[evt];
+            var es = eventHandlerStorage[this._eid][evt];
             for(var i = 0, n = es.length; i < n; i++){
                 if(es === handler){
                     es.splice(i, 1);
@@ -35,16 +41,15 @@
                 }
             }
         },
-        fire:function(evt){
-            if(!this.events){
-                this.events = {};
-            }
-            if(!this.events[evt]){
+        fire:function(evt, args){
+            if(!this._eid || 
+                !eventHandlerStorage[this._eid] || 
+                !eventHandlerStorage[this._eid][evt]){
                 return;
             }
-            var es = this.events[evt];
+            var es = eventHandlerStorage[this._eid][evt];
             for(var i = 0, n = es.length; i < n; i++){
-                if(es[i].apply(this) === true){
+                if(es[i].apply(this, args) === true){
                     this.off(evt, es[i]);
                 }
             }
@@ -60,7 +65,6 @@
         this.deps = deps;
         this.factory = factory;
         this.exports = {};
-        this.events = {};
         this.status = STATUS.loading;
         this.isProxy = isProxy;
     };

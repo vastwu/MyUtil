@@ -1,23 +1,5 @@
 
 define(function(require, exports, beta){
-    Object.prototype.clone = function() {
-        var o = {};
-        for (var k in this) {
-            var v = this[k];
-            if (v != null && v != undefined && typeof(v.clone) == "function") v = v.clone();
-            o[k] = v;
-        }
-        return o;
-    };
-    Array.prototype.clone = function() {
-        var a = [];
-        for (var i = 0; i < this.length; i++) {
-            var v = this[i];
-            if (v != null && v != undefined && typeof(v.clone) == "function") v = v.clone();
-            a.push(v);
-        };
-        return a;
-    };
     var clone = function(elem){
         var result;
         if(elem.constructor == Array){
