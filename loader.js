@@ -26,8 +26,6 @@
         this.status = STATUS.loading;
         this.isProxy = isProxy;
         this.callbacks = [];
-        //who depend me
-        this.waitings = {};
     };
     Module.prototype.init = function(){    
         if(this.status === STATUS.ready || this.isProxy){
@@ -143,4 +141,8 @@
     };
     global.define = Loader.define;
     global.require = Loader.require;
+    global.loaderReset = function(){
+        modules = {};
+        unnamedModules = [];
+    };
 })(window);

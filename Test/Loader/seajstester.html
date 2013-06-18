@@ -20,11 +20,12 @@
 
 <script>
 function run(){
-  require('100/96-89.js', function() {
+  window.requireNumber = 0;
+  require('100/97-89.js', function() {
     var end = new Date().getTime()
     printResults('execution time: ' + (end - start) + 'ms')
   });
-
+  
   function printResults(txt) {
     var d = document.createElement('div')
     d.innerHTML = txt

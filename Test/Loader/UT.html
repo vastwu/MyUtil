@@ -85,6 +85,7 @@
         });        
     });
     QUnit.testDone(function( details ) {
-      console.log( "Finished running: ", details.module, details.name, "Failed/total: ", details.failed, details.total, details.duration );
+        loaderReset();
+        console.log( "Finished running: ", details.module, details.name, "Failed/total: ", details.failed, details.total, details.duration );
     });
 </script>
