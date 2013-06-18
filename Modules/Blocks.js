@@ -18,7 +18,7 @@ define(function(require, exports, beta){
         return result;
     };
 
-    var EventProrotype = require('EventProrotype');
+    var EventProrotype = require('Modules/EventProrotype.js');
     /**
      * make children element be flex, auto position
      * @param {HTMLElement} containerElem parentNode

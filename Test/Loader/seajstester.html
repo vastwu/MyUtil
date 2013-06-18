@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Speed Test</title>
+</head>
+<body>
+<div id="out"></div>
+<p>Please enable cache and REFRESH this page to see the exact result.</p>
+
+<!-- <script src="../../../dist/sea-debug.js"></script> -->
+<script src="../../loader.js"></script>
+<script>
+  var start = new Date().getTime();
+  // console.profile('start');
+</script>
+
+<script src="combo-cmd.js"></script>
+
+<script>
+function run(){
+  require('100/96-89.js', function() {
+    var end = new Date().getTime()
+    printResults('execution time: ' + (end - start) + 'ms')
+  });
+
+  function printResults(txt) {
+    var d = document.createElement('div')
+    d.innerHTML = txt
+    document.getElementById('out').appendChild(d)
+  }
+}
+run();
+// var a = {
+//   handlers:[]
+// };
+// var hs = [];
+// hs.push(function(){
+//   console.log('a');
+// });
+// hs.push(function(){
+//   console.log('b');
+// });
+// hs.push(function(){
+//   console.log('c');
+// });
+// debugger
+// var b = {handlers:[]};
+// b.handlers = hs;
+// hs = null;
+// // a.handlers[0] = null;
+// // a.handlers[1] = null;
+
+// var end = 'wait';
+</script>
+
+</body>
+</html>

@@ -8,13 +8,7 @@ define(function(require, exports, beta){
         }
         if(option.onExit){
             this.on('exit', option.onExit);
-        }
-        if(option.actions){
-            for(var k in option.actions){
-                this.on(k, option.actions[k]);
-            } 
-        }
-        
+        }     
     };
     FSMState.prototype = EventProrotype;
     FSMState.prototype.getName = function(){
@@ -41,11 +35,10 @@ define(function(require, exports, beta){
         if(this.transformMap[name] && this.transformMap[name][actionName]){
             var fromState = this.currectState;
             var toState = this.states[this.transformMap[name][actionName]];
-            fromState.fire(actionName);
             fromState.fire('exit');            
             toState.fire('entry');
             this.fire('stateChanged', [fromState, toState]);
-            this.currectState = toState;
+            this.currectState = toState;  
         }
         return this;
     };

@@ -47,8 +47,7 @@ define('main', function(require, exports, beta){
             },
             onExit:function(){
                 console.log('exit A');
-            },
-            actions:{}
+            }
         })
         .append('B', {
             onEntry:function(){
@@ -56,8 +55,7 @@ define('main', function(require, exports, beta){
             },
             onExit:function(){
                 console.log('exit B');
-            },
-            actions:{}
+            }
         })
         .append('C', {
             onEntry:function(){
@@ -65,8 +63,7 @@ define('main', function(require, exports, beta){
             },
             onExit:function(){
                 console.log('exit C');
-            },
-            actions:{}
+            }
         });
         m.on('stateChanged', function(from, to){
             console.log('from ' + from.getName() + ' to ' + to.getName());

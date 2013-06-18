@@ -1,59 +1,17 @@
 ;(function(global){
     var REQUIRE_REG = /[^.]\s*require\s*\(\s*["']([^'"\s]+)["']\s*\)/g;
-    var loadScript = function(src, onload, onerror){
+    var loadScript = function(src, onload){
         var script = document.createElement('script');
         script.src = src;
-        script.onload = function(evt){
-            onload && onload(evt);
+        script.onload = function(){
+            onload && onload(src);
             document.body.removeChild(script);
             script.onload = null;
             script = null;
+            onload = null;
+            src = null;
         };
-        script.onerror = onerror;
         document.body.appendChild(script);
-    };
-    var eventHandlerStorage = {};
-    var idIndex = 0;
-    var Event = {
-        on:function(evt, handler){
-            if(!this._eid){
-                this._eid = 'eid' + (++idIndex);
-                eventHandlerStorage[this._eid] = {};
-            }
-            var handlers = eventHandlerStorage[this._eid];
-            if(!handlers[evt]){
-                handlers[evt] = [];
-            }
-            handlers[evt].push(handler);
-            return handler;
-        },
-        off:function(evt, handler){
-            if(!this._eid || 
-                !eventHandlerStorage[this._eid] || 
-                !eventHandlerStorage[this._eid][evt]){
-                return;
-            }
-            var es = eventHandlerStorage[this._eid][evt];
-            for(var i = 0, n = es.length; i < n; i++){
-                if(es === handler){
-                    es.splice(i, 1);
-                    break;
-                }
-            }
-        },
-        fire:function(evt, args){
-            if(!this._eid || 
-                !eventHandlerStorage[this._eid] || 
-                !eventHandlerStorage[this._eid][evt]){
-                return;
-            }
-            var es = eventHandlerStorage[this._eid][evt];
-            for(var i = 0, n = es.length; i < n; i++){
-                if(es[i].apply(this, args) === true){
-                    this.off(evt, es[i]);
-                }
-            }
-        }
     };
     var STATUS = {
         unload:1,
@@ -67,59 +25,83 @@
         this.exports = {};
         this.status = STATUS.loading;
         this.isProxy = isProxy;
+        this.callbacks = [];
+        //who depend me
+        this.waitings = {};
     };
-    Module.prototype.constructor = Module;
-    Module.prototype = Event;
     Module.prototype.init = function(){    
-        if(this.status === STATUS.ready){
+        if(this.status === STATUS.ready || this.isProxy){
             return;
         }           
-        if(this.deps.length == 0){
+        if(!this.deps || this.deps.length == 0){
             var exports = {}; 
             this.exports = this.factory.apply(exports, [Loader.require, exports, this]) || exports;
             this.status = STATUS.ready;
-            return this.fire('inited');
+            while(this.callbacks.length){
+                var h = this.callbacks.shift();
+                h.call(this, this.exports);
+            }
+            this.clear();
+            return;
         }
-        var n = this.deps.length;
-        var self = this;
-        while(this.deps.length){
-            Loader.require(this.deps.pop(), function(){
-                n--;
-                if(n <= 0){
-                    self.init();
+        var self = this; 
+        for(var i = 0, n = this.deps.length; i < n; i++ ){
+            Loader.require(this.deps[i], function(exports){   
+                if(self.deps){             
+                    for(var j = 0, m = self.deps.length; j < m; j++){
+                        if(self.deps[j] == this.name){
+                            self.deps.splice(j, 1);
+                            break;
+                        }
+                    }
                 }
+                if(!self.deps || self.deps.length <= 0){
+                    self.init();
+                }                    
             });
-        }        
+        }    
+    };
+    Module.prototype.onInit = function(handler){
+        this.callbacks.push(handler);
     };
     Module.prototype.merge = function(module){
-        for(var evt in module.events){
-            if(!this.events[evt]){
-                this.events[evt] = [];
-            }
-            while(module.events[evt].length){
-                this.events[evt].push(module.events[evt].shift());
-            }
-        }
-        this.name = module.name;
+        this.name = module.name || this.name;
         this.factory = module.factory;
         this.deps = module.deps;
         this.status = module.status;
 
         this.isProxy = false;
     };
+    Module.prototype.clear = function(){
+        this.factory = null;
+        this.callbacks = null;
+        this.deps = null;;
+    };
     var modules = {};
     var unnamedModules = [];
-    var Loader = {        
-        define:function(moduleName, factory){
+    var Loader = {  
+        scriptCallback:function(path){
+            var m = modules[path];
+            if(unnamedModules[0]){
+                m.merge(unnamedModules.pop());                        
+            }                   
+            m.init();  
+        },      
+        define:function(moduleName, deps, factory){
             if(arguments.length == 1){
                 factory = moduleName;
-                moduleName = undefined;
-            }
-            var s = factory.toString();
-            var deps = [];
-            s.replace(REQUIRE_REG, function (match, dep) {
-                deps.push(dep);               
-            });
+                moduleName = null;
+            }else if(arguments.length == 2){
+                factory = deps;
+                deps = null;
+            }    
+            if(!deps){
+                deps = [];
+                var s = factory.toString();
+                s.replace(REQUIRE_REG, function (match, dep) {
+                    deps.push(dep);               
+                }); 
+            }      
             var m = new Module(moduleName, factory, deps);
             if(!moduleName){
                 unnamedModules.push(m);
@@ -128,43 +110,37 @@
             }else{
                 modules[moduleName] = m;  
             }
+            deps = null;
+            s = null;
         },
         require:function(modulePath, callback){
             var m = modules[modulePath];
             if(!m){
-                modules[modulePath] = new Module(modulePath, null, null, true);
-                loadScript(modulePath, function(evt){
-                    m = modules[modulePath];
-                    if(unnamedModules[0]){
-                        var unnamedM = unnamedModules.pop();
-                        m.merge(unnamedM);                        
-                    }                   
-                    if(callback){
-                        m.on('inited', function(){
-                            callback(m.exports);
-                            return true;
-                        });
-                    }
-                    m.init();                        
-                });
+                m = modules[modulePath] = new Module(modulePath, null, null, true);
+                if(callback){
+                    m.onInit(callback);
+                }
+                loadScript(modulePath, Loader.scriptCallback);
+                // callback = null;
                 return;
             }
             m.init();  
             if(m.status == STATUS.loading){
-                m.on('inited', function(){
-                    callback(m.exports);
-                    return true;
-                });
+                m.onInit(callback);
+                // callback = null;
                 return;
             }else if(m.status == STATUS.ready){
-                callback && callback(m.exports);
+                if(callback){
+                    // keep async
+                    setTimeout(function(){
+                        callback.call(m, m.exports);
+                        // callback = null;
+                    }, 13);
+                }
                 return m.exports;
             }              
         }
     };
-    Loader.define('EventProrotype', function(){
-        return Event;
-    });
     global.define = Loader.define;
     global.require = Loader.require;
 })(window);
