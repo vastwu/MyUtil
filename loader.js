@@ -13,82 +13,112 @@
         };
         document.body.appendChild(script);
     };
+    function isType(type) {
+        return function(obj) {
+            return Object.prototype.toString.call(obj) === "[object " + type + "]"
+        }
+    }
+    var isObject = isType("Object");
+    var isString = isType("String");
+    var isArray = Array.isArray || isType("Array");
+    var isFunction = isType("Function");
     var STATUS = {
         unload:1,
         loading:2,
-        ready:3
+        loaded:3,
+        ready:4
     };
-    var Module = function(name, factory, deps, isProxy){
+    var Module = function(name, factory, deps){
         this.name = name;
         this.deps = deps;
         this.factory = factory;
         this.exports = {};
-        this.status = STATUS.loading;
-        this.isProxy = isProxy;
+        this.status = STATUS.unload;
         this.callbacks = [];
+        this.waiting = {};
     };
     Module.prototype.init = function(){    
-        if(this.status === STATUS.ready || this.isProxy){
+        if(this.status === STATUS.ready || this.status == STATUS.loading){
             return;
-        }           
-        if(!this.deps || this.deps.length == 0){
+        }else if(this.status < STATUS.loading){
+            this.load();
+            return;
+        }
+        var n = remain = this.deps ? this.deps.length : 0;  
+        //copy deps
+        //if deps like ['a.js', 'b.js', 'a.js'],
+        //when b.js is ready, this.deps will be release and then, 
+        // var copyDeps = this.deps.slice();
+        var self = this, m; 
+        for(var i = 0; i < n; i++ ){
+            //in depsModule.init may be fire this module.init and become ready
+            if(this.status == STATUS.ready){
+                break;
+            }            
+            m = getModule(this.deps[i]);
+            if(m.status == STATUS.ready){
+                 remain--;
+            }else{
+                m.wait(this.name);
+                m.init();              
+            }                 
+        }     
+        if(remain == 0 && this.status !== STATUS.ready){
+            // console.log(this.name + ' inited');
             var exports = {}; 
-            this.exports = this.factory.apply(exports, [Loader.require, exports, this]) || exports;
+            this.exports = this.factory.apply(exports, [Loader.require, exports, this]) || exports; 
             this.status = STATUS.ready;
+            this.factory = null;
+            this.deps = null;
             while(this.callbacks.length){
                 var h = this.callbacks.shift();
                 h.call(this, this.exports);
             }
-            this.clear();
-            return;
-        }
-        var self = this; 
-        for(var i = 0, n = this.deps.length; i < n; i++ ){
-            Loader.require(this.deps[i], function(exports){   
-                if(self.deps){             
-                    for(var j = 0, m = self.deps.length; j < m; j++){
-                        if(self.deps[j] == this.name){
-                            self.deps.splice(j, 1);
-                            break;
-                        }
-                    }
-                }
-                if(!self.deps || self.deps.length <= 0){
-                    self.init();
-                }                    
-            });
-        }    
+            for(var p in this.waiting){
+                getModule(p).init();
+            }
+            this.callbacks = null;
+            this.waiting = null;
+        }        
+    };
+    Module.prototype.load = function(){
+        this.status = STATUS.loading;
+        loadScript(this.name, scriptCallback);
+    };
+    Module.prototype.wait = function(path){
+        this.waiting[path] = 1; 
     };
     Module.prototype.onInit = function(handler){
-        this.callbacks.push(handler);
+        if(isFunction(handler)){
+            this.callbacks.push(handler);
+        }        
     };
     Module.prototype.merge = function(module){
         this.name = module.name || this.name;
         this.factory = module.factory;
         this.deps = module.deps;
         this.status = module.status;
-
-        this.isProxy = false;
-    };
-    Module.prototype.clear = function(){
-        this.factory = null;
-        this.callbacks = null;
-        this.deps = null;;
     };
     var modules = {};
     var unnamedModules = [];
-    var Loader = {  
-        scriptCallback:function(path){
-            var m = modules[path];
-            if(unnamedModules[0]){
-                m.merge(unnamedModules.pop());                        
-            }                   
-            m.init();  
-        },      
-        define:function(moduleName, deps, factory){
+    var getModule = function(path){
+        if(!modules[path]){
+            modules[path] = new Module(path, null, null, true);
+        }
+        return modules[path];
+    };
+    var scriptCallback = function(path){
+        var m = getModule(path);
+        if(unnamedModules[0]){
+            m.merge(unnamedModules.pop());                     
+        }                   
+        m.init();  
+    };
+    var Loader = {     
+        define:function(modulePath, deps, factory){
             if(arguments.length == 1){
-                factory = moduleName;
-                moduleName = null;
+                factory = modulePath;
+                modulePath = null;
             }else if(arguments.length == 2){
                 factory = deps;
                 deps = null;
@@ -100,39 +130,26 @@
                     deps.push(dep);               
                 }); 
             }      
-            var m = new Module(moduleName, factory, deps);
-            if(!moduleName){
+            var m = getModule(modulePath);
+            m.factory = factory;
+            m.deps = deps;
+            m.status = STATUS.loaded;
+            if(!modulePath){
                 unnamedModules.push(m);
-            }else if(modules[moduleName] && modules[moduleName].isProxy){
-                modules[moduleName].merge(m);
-            }else{
-                modules[moduleName] = m;  
             }
             deps = null;
             s = null;
         },
         require:function(modulePath, callback){
-            var m = modules[modulePath];
-            if(!m){
-                m = modules[modulePath] = new Module(modulePath, null, null, true);
-                if(callback){
-                    m.onInit(callback);
-                }
-                loadScript(modulePath, Loader.scriptCallback);
-                // callback = null;
-                return;
-            }
-            m.init();  
-            if(m.status == STATUS.loading){
+            var m = getModule(modulePath);
+            if(m.status !== STATUS.ready){
                 m.onInit(callback);
-                // callback = null;
-                return;
-            }else if(m.status == STATUS.ready){
-                if(callback){
+                m.init();
+            }else{
+                if(isFunction(callback)){
                     // keep async
                     setTimeout(function(){
                         callback.call(m, m.exports);
-                        // callback = null;
                     }, 13);
                 }
                 return m.exports;

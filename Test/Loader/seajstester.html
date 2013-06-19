@@ -9,7 +9,7 @@
 <div id="out"></div>
 <p>Please enable cache and REFRESH this page to see the exact result.</p>
 
-<!-- <script src="../../../dist/sea-debug.js"></script> -->
+<!-- <script src="seajs-debug.js"></script> -->
 <script src="../../loader.js"></script>
 <script>
   var start = new Date().getTime();
@@ -21,9 +21,13 @@
 <script>
 function run(){
   window.requireNumber = 0;
-  require('100/97-89.js', function() {
+  if(window.seajs){
+    require = seajs.use;
+  }
+  require('100/89-89.js', function() {
     var end = new Date().getTime()
-    printResults('execution time: ' + (end - start) + 'ms')
+    printResults('execution time: ' + (end - start) + 'ms');
+    debugger
   });
   
   function printResults(txt) {
@@ -33,6 +37,7 @@ function run(){
   }
 }
 run();
+debugger
 // var a = {
 //   handlers:[]
 // };
