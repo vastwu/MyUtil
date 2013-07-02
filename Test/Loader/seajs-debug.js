@@ -544,7 +544,9 @@ Module.prototype._load = function() {
   // Begin parallel loading
   for (i = 0; i < len; i++) {
     m = cachedMods[uris[i]]
-
+    if(mod.status === STATUS.EXECUTED){
+      break;
+    }
     if (m.status < STATUS.FETCHING) {
       m._fetch()
     }

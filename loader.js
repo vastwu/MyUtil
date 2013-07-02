@@ -44,7 +44,8 @@
             this.load();
             return;
         }
-        var n = remain = this.deps ? this.deps.length : 0;  
+        var n = this.deps ? this.deps.length : 0;  
+        var remain = n;
         //copy deps
         //if deps like ['a.js', 'b.js', 'a.js'],
         //when b.js is ready, this.deps will be release and then, 
