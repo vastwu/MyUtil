@@ -1,0 +1,142 @@
+<head>
+    <title>
+        Websocket控制台 
+    </title>
+    <style>
+        body{
+            width:100%;
+            height:100%;
+            margin:0;
+            padding:0;
+        }
+        pre{
+            margin:0;
+        }
+        .editor{
+            width:100%;
+            position:absolute;
+            top:40px;
+            bottom:0px;
+        }
+        #code{
+            font-size:16px;
+        }
+        #logs{
+            width:100%;
+            background-color:black;
+            color:white;
+            overflow:hidden;
+            position:absolute;
+            top:40px;
+            bottom:0px;
+            font-size:14px;
+        }
+        #logs .item{
+            padding:5px 10px;
+        }
+        #logs .from{
+            font-weight:bolder;
+            margin-right:15px;
+        }
+        #logs .error{
+            color:red;
+        }
+        #logs .success{
+            color:green;
+        }
+        #logs .warning{
+            color:yellow;
+        }
+        .left,
+        .right{
+            width:50%;
+            height:100%;
+            position:relative;
+        }
+        .left{
+            float:left;
+            overflow:hidden;
+        }
+        .right{
+            margin-left:50%;
+        }
+        .title{
+            height:40px;
+            line-height:40px;
+            padding-left:30px;
+        }
+        .btn{
+            border:1px solid black;
+            color:black;
+            display:inline;
+            padding:3px 10px;
+            border-radius:4px;
+            cursor:pointer;
+            margin:0 10px;
+        }
+        .btn:hover{
+            border-color:blue; 
+        }
+        #help-container{
+            position:absolute;
+            z-index:10;
+            width:100%;
+            height:100%;
+            background-color:rgba(0,0,0,0.7);
+            top:0;
+            display:none;
+        }
+        #help-container .content{
+            width:800px;
+            height:500px;
+            margin:100px auto 0;
+            background-color:white;
+            color:black;
+            padding:25px;
+            border-radius:4px;
+        }
+        #help-container .content li{
+            margin:5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="left">
+        <div class="title">
+            <label for="targetList">Target:</label> 
+            <select id="targetList"></select>
+            <div id="submit" class="btn">send</div>
+            <div id="startServer" class="btn" style="display:none;">Start Server</div>
+            <div id="stopServer" class="btn" style="display:none;">Stop Server</div>
+        </div>
+        <div class="editor">
+            <div id="code">location.href</div> 
+        </div>
+    </div>
+    <div class="right log-container">
+        <div class="title">
+            <div id="help" class="btn">How to use</div>
+            <div id="clear" class="btn">clear</div>
+        </div>
+        <div id="logs">
+        </div>
+    </div>
+    <div id="help-container">
+        <ul class="content">
+            <li>登录开发机，st01-lbs-st-env-fe-dev (一般情况下服务始终保持开启)</li>
+            <li>运行nodejs服务端，/home/wusen/htdocs_8888/wbs/service/bin/start.sh</li>
+            <li>在需要的控制的页面中引入：http://st01-lbs-st-env-fe-dev.st01.baidu.com:8888/wbs/client/s.js</li> 
+            <li>如果浏览器支持websocket，则会自动建立连接</li>
+            <li>Target右侧选项中如果有内容则表明连接成功</li>
+            <li>在master左侧输入代码或变量，在上方选择target。（*为向所有连接者发送指令, 慎用）</li>
+            <li>右侧为控制台，可以看到client接入，断开或指令返回值</li>
+            <li>例如：输入location.href，点击send，可以看到各个终端返回自己页面中的该变量值</li>
+            <li>目前主要用途为控制终端跳转到内网测试地址，可以避免修改客户端内地址</li>
+            <li>点击空白处关闭帮助界面</li>
+        </ul> 
+    </div>
+    <script src="lib/ace/src-min/ace.js"></script>
+    <script src="lib/ace/src-min/ext-language_tools.js"></script>
+    <script src="s.js"></script>
+    <script src="master.js"></script>
+</body>
