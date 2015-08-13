@@ -1,0 +1,139 @@
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../../lib/QUnit/qunit.css">
+    <script type="text/javascript" src="../../lib/QUnit/qunit.js"></script>
+    <!-- <script type="text/javascript" src="src/jquery-1.9.1.min.js"></script>     -->
+    <script type="text/javascript" src="../../src/vLoader.js"></script>
+
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="output" style="display:none;"></div>
+    <div id="test1" style="display:none;">
+        <a id="l1" ek="l1" href="javascript:alert('preventDefault lost');" >1</a>
+        <input id="i1" ek="i1" type="text"  />
+        <div id="p1" ek="p1">
+            <input id="i2" ek="i2" type="text"  />
+            <div id="p2" ek="p2">
+                <input id="i3" ek="i3" type="text"  />
+                <div id="p3" ek="p3"></div>
+            </div>
+        </div>
+        <form id="form" ek="formSubmit" onsubmit="window.defaultSubmit();return false;">
+            <input id="form_input" type="text" />
+        </form>
+    </div>
+</body>
+<script type="text/javascript">
+    var $id = function(id){
+        return document.getElementById(id);
+    };
+    var output = $id('output');
+    var log = function(text, isCover){
+        if(isCover){
+            output.innerHTML = text || "";
+        }else{
+            output.innerHTML += text || "";
+        }
+    };
+    var getLog = function(){
+        return output.innerHTML;
+    };
+    module('base');
+    asyncTest("base", function() {
+        expect(4);
+        require('a.js', function(module){
+            equal(module.name, "a");
+        });
+        require('a.js', function(module){
+            equal(module.name, "a");
+        });
+        require('b.js', function(module){
+            equal(module.name, "b");            
+        });
+        require('c.js', function(module){
+            equal(module.name, "c");            
+        });
+        start();
+    });
+    module('depstatic');
+    asyncTest("depstatic", function() {
+        expect(3);
+        define('main', function(require, exports, beta){
+            var a = require('a.js');
+            var b = require('b.js');
+            var c = require('c.js');
+            equal(a.name, "a");
+            equal(b.name, "b");
+            equal(c.name, "c");            
+        });
+        require('main', function(){
+            start();
+        });        
+    });
+    module('dep');
+    asyncTest("dep", function() {
+        expect(4);
+        require('dep_dep_a.js', function(module){
+            equal(module.name, "dep_dep_a");
+            equal(module.dep, "dep_a");
+            var dep_a = require('dep_a.js');
+            var a = require('a.js');
+            equal(dep_a.name, "dep_a");
+            equal(a.name, "a");
+            start();
+        });        
+    });
+    asyncTest("tree", function() {
+        expect(1);
+        define('main', function(){
+            var a = require('tree/a.js');
+            equal(a.link, "c_1_1c_1_2c_2_1c_2_1");
+        });  
+        require('main', function(){
+            start();
+        });        
+    });
+    asyncTest("reload", function() {
+        define('main', ['a.js', 'b.js', 'a.js'], function(require, exports, beta){
+            var a = require('a.js');
+            var b = require('b.js');
+            return {
+                a:a.name,
+                b:b.name
+            }         
+        });
+        require('main', function(exports){
+            equal(exports.a, "a");
+            equal(exports.b, "b");
+            start();
+        });        
+    });
+    module('cross dep');
+    asyncTest("cross dep", function() {
+        define('aaa', ['b1', 'b2', 'c1', 'c2'], function(){
+            return {
+                name:'aaa'
+            }
+        });
+        define('b1', ['c1', 'c2'], function(){});
+        define('b2', ['c1', 'c2'], function(){});
+        define('c1', [], function(){});
+        define('c2', [], function(){});
+        require('aaa', function(exports){
+            equal(exports.name, "aaa");           
+            start();
+        });        
+    });
+    module('relitive dep');
+    asyncTest("relitive dep", function() {
+        require('relative/a.js', function(exports){
+            equal(exports.name, "rarbrc");   
+            start(); 
+        });      
+    });
+    QUnit.testDone(function( details ) {
+        loaderReset();
+        console.log( "Finished running: ", details.module, details.name, "Failed/total: ", details.failed, details.total, details.duration );
+    });
+</script>

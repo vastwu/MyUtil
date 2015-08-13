@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="require.js"></script>
+</head>
+<style type="text/css">
+#container{
+    width:340px;
+    height:700px;
+    border:1px solid red;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    -webkit-transition: all 0.3s ease-out;
+}
+#container > li{
+    width:98px;
+    height:98px;
+    border: 1px solid blue;
+    -webkit-transition: all 0.3s ease-out;
+    cursor:pointer;
+}
+
+</style>
+<body>
+    <ul id="container">
+        <li i="0">0</li>
+        <li i="1">1</li>
+        <li i="2">2</li>
+        <li i="3">3</li>
+        <li i="4">4</li>
+        <li i="5">5</li>
+        <li i="6">6</li>
+        <li i="7">7</li>
+        <li i="8">8</li>
+    </ul>
+</body>
+
+<script type="text/javascript">
+
+define('main', function(require, exports, beta){
+    
+});
+require(['main'], function(main){
+    debugger
+    var a = require(['Test/Loader/a.js']);
+});
+
+
+
+
+</script>

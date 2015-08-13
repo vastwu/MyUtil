@@ -1,0 +1,82 @@
+<head>
+    <script type="text/javascript" src="src/TimeShaft.js"></script>
+    <script type="text/javascript" src="src/Animation.js"></script>
+    <script type="text/javascript" src="src/TimingFunc.js"></script>
+</head>
+<style type="text/css">
+#container{
+    margin:0 auto;
+}
+input{
+    width:80px;
+    height:40px;
+    font-size:18px;
+}
+.block-container{
+    border:1px solid rgba(200, 200, 200, 0.7);
+    width:600px;
+    height:200px;
+}
+.block{
+    margin:80px auto;
+    border:1px solid red;
+    height:50px;
+    width:0px;
+}
+.name{
+    margin:0;
+    font-weight: bolder;
+    font-size:18px;
+}
+</style>
+
+<body onload="init();">
+    <div id="container" style="display:none;">
+        
+    </div>
+</body></p>
+<script type="text/javascript">
+function init(){
+
+    var C = document.getElementById('container');
+
+    var createTest = function(animName){
+        var itemContainer = document.createElement('div');
+        var name = document.createElement('p');
+        name.innerHTML = animName;
+        name.className = 'name';
+        var btn = document.createElement('input');
+        btn.value = 'play';
+        btn.type = 'button';
+        itemContainer.appendChild(name);
+        itemContainer.appendChild(btn);
+
+        var testContainer = document.createElement('div');
+        testContainer.className = 'block-container';
+        var testOne =  document.createElement('div');
+        testOne.className = 'block';
+        testContainer.appendChild(testOne);
+        itemContainer.appendChild(testContainer);
+        var options = {
+            'begin':0,
+            'end':300,
+            'duration':600,
+            'timingFunction':Animation.TIMING_FUNCTION[animName]
+        };
+        var anim = new Animation(options, function(value){
+            testOne.style.width = value + "px";
+        });  
+        btn.onclick = function(){
+            anim.play();
+        };
+        C.appendChild(itemContainer);
+    };
+
+    // createTest('linear');
+    for(var animName in Animation.TIMING_FUNCTION){
+        createTest(animName);
+    }
+    C.style.display = "";
+};
+
+</script></body></html>

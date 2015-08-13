@@ -1,0 +1,139 @@
+<head>
+    <script type="text/javascript" src="src/TimeShaft.js"></script>
+    <script type="text/javascript" src="src/Animation.js"></script>
+</head></p>
+<style type="text/css">
+#container{
+    margin:0 auto;
+    position: relative;
+    width:800px;
+    height:800px;
+    border:1px solid rgba(200, 200, 200, 0.7);
+}
+.circle{
+    border:1px solid red;
+    width:50px;
+    height:50px;
+    top:375px;
+    left:375px;
+    position: absolute;
+    border-radius:300px;
+}
+#b_circle{
+    border:1px solid red;
+    top:375px;
+    left:375px;
+}
+#s_circle{
+    border:1px solid green;
+    width:25px;
+    height:25px;
+    top:375px;
+    left:375px;
+}
+input{
+    width:80px;
+    height:40px;
+    font-size:18px;
+}
+.progress-container{
+    width:100px;
+    height:15px;
+    border:1px solid black;
+    background-color:gray;
+
+}
+.progress-container > div{
+    background-color:red;
+    height:100%;
+    color:white;
+    line-height: 100%;
+    font-size:14px;
+}
+</style>
+
+<p><body>
+    <div>
+        <input value="play" type="button" onclick="play();">
+        <input value="pause" type="button" onclick="pause();">
+    </div>
+    <div>
+        <div>
+            <span>big</span>fps:<span id="bFPS"></span>
+            <div class="progress-container"><div id="bigProgress" style="width:0px;"></div></div>
+        </div>
+        <div>
+            <span>small</span>fps:<span id="sFPS"></span>
+            <div class="progress-container"><div id="smallProgress" style="width:0px;"></div></div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="circle" id="s_circle"></div>
+        <div class="circle" id="b_circle"></div>
+    </div>
+</body></p>
+<script type="text/javascript">
+    var center = {
+        'x':400, 
+        'y':400
+    };
+    var options = {
+        'begin':0,
+        'end':2 * Math.PI,
+        'duration':5000,
+        'times': 10,
+        'timingFunction':Animation.TIMING_FUNCTION.linear
+    };    
+    var bc = document.getElementById('b_circle');
+    var bigProgress = document.getElementById('bigProgress');
+    var bFPS = document.getElementById('bFPS');
+    var B_L = 300;
+    var anim = new Animation(options, function(value){
+        // div.style.left = value + "px";
+        var x = B_L * Math.sin(value);
+        var y = B_L * Math.cos(value);
+        bc.style.left = center.x + x + "px";
+        bc.style.top = center.y - y + "px";
+        var p = parseInt(this.getProgress() * 100);
+        bigProgress.innerHTML = p;
+        bigProgress.style.width = p + "%";
+        bFPS.innerHTML = this.getFPS();
+    });
+
+    var sc = document.getElementById('s_circle');
+    var S_L = 200;
+    var smallProgress = document.getElementById('smallProgress');
+    var sFPS = document.getElementById('sFPS');
+    var options2 = {
+        'begin':0,
+        'end':2 * Math.PI,
+        'duration':5000,
+        'times':10,
+        'timingFunction':Animation.TIMING_FUNCTION.linear,
+        'FPS':40
+    }; 
+    var anim2 = new Animation(options2, function(value){
+        if(value > Math.PI * 0.75){
+            throw new Error('one error, but others running ok');
+        }
+        // div.style.left = value + "px";
+        var x = S_L * Math.sin(value);
+        var y = S_L * Math.cos(value);
+        sc.style.left = center.x + x + "px";
+        sc.style.top = center.y - y + "px";
+        var p = parseInt(this.getProgress() * 100);
+        smallProgress.innerHTML = p;
+        smallProgress.style.width = p + "%";
+        sFPS.innerHTML = this.getFPS();
+
+    });
+    function play(){
+        anim.play();
+        anim2.play();
+    }
+
+    function pause(){
+        anim.pause();
+        anim2.pause();
+    }
+</script></body></html>
