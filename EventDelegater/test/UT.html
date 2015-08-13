@@ -1,0 +1,386 @@
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../src/QUnit/qunit.css">
+    <script type="text/javascript" src="../src/QUnit/qunit.js"></script>
+    <!-- <script type="text/javascript" src="src/jquery-1.9.1.min.js"></script>     -->
+    <script type="text/javascript" src="../src/EventHelper.js"></script>
+
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="output" style="display:none;"></div>
+    <div id="test1" style="display:none;">
+        <a id="l1" ek="l1" href="javascript:alert('preventDefault lost');" >1</a>
+        <input id="i1" ek="i1" type="text"  />
+        <div id="p1" ek="p1">
+            <input id="i2" ek="i2" type="text"  />
+            <div id="p2" ek="p2">
+                <input id="i3" ek="i3" type="text"  />
+                <div id="p3" ek="p3"></div>
+            </div>
+        </div>
+        <form id="form" ek="formSubmit" onsubmit="window.defaultSubmit();return false;">
+            <input id="form_input" type="text" />
+        </form>
+    </div>
+</body>
+<script type="text/javascript">
+    var $id = function(id){
+        return document.getElementById(id);
+    };
+    var evtHelper = new EventHelper($id('test1'));
+    var output = $id('output');
+    var simEvt = {
+        fromElement:null,
+        toElement:null,
+        returnValue:null
+    };
+    var log = function(text, isCover){
+        if(isCover){
+            output.innerHTML = text || "";
+        }else{
+            output.innerHTML += text || "";
+        }
+    };
+    var getLog = function(){
+        return output.innerHTML;
+    };
+    //模拟鼠标事件,封装公共部分
+    var ElemTrigger = function(elem, evtType, simEvent){
+        evtHelper._fire(elem, evtType, simEvent, 0);
+    };
+
+    test( "click event", function() {
+        var p1Click = evtHelper.on('p1:click', function(){
+            log('p1-click');
+        });
+        var p2Click = evtHelper.on('p2:click', function(){
+            log('p2-click');
+        });
+        var p3Click = evtHelper.on('p3:click', function(){
+            log('p3-click');
+        });
+        var p3Move = evtHelper.on('p3:mousemove', function(){
+            log('p3-mousemove');
+        });
+         //单个click事件
+        ElemTrigger($id('p1'), 'click', simEvt);
+        equal(getLog(), 'p1-click');
+        log("", true);
+         //单个move事件
+        ElemTrigger($id('p3'), 'mousemove', simEvt);
+        equal(getLog(), 'p3-mousemove');
+        log("", true);
+         //冒泡事件
+        ElemTrigger($id('p3'), 'click', simEvt);
+        equal(getLog(), 'p3-clickp2-clickp1-click');
+        log("", true);
+        //移除事件 by returnvalue
+        evtHelper.off(p1Click);
+        ElemTrigger($id('p1'), 'click', simEvt);
+        equal(getLog(), '');
+        //off by command
+        evtHelper.off('p2:click');
+        ElemTrigger($id('p2'), 'click', simEvt);
+        equal(getLog(), '');
+        //off by *
+        evtHelper.off('p3:*');
+        ElemTrigger($id('p3'), 'click', simEvt);
+        ElemTrigger($id('p3'), 'mousemove', simEvt);
+        equal(getLog(), '');
+        evtHelper.clear();
+    });
+    
+    test( "mouseover event", function() {
+        var OUT_LOG = 'p2-mouseover';
+        var p2over = evtHelper.on('p2:mouseover', function(){
+            log(OUT_LOG);
+        });
+        //p1->p2触发over
+        simEvt.fromElement = $id('p1');
+        simEvt.toElement = $id('p2');
+        ElemTrigger($id('p2'), 'mouseover', simEvt);
+        equal(getLog(), OUT_LOG);
+        log("", true);
+
+        //p2->p3不触发over 
+        simEvt.fromElement = $id('p2');
+        simEvt.toElement = $id('p3');
+        ElemTrigger($id('p2'), 'mouseover', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        //p3->p2不触发over 
+        simEvt.fromElement = $id('p3');
+        simEvt.toElement = $id('p2');
+        ElemTrigger($id('p2'), 'mouseover', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        //null->p2触发over 
+        simEvt.fromElement = null;
+        simEvt.toElement = $id('p2');
+        ElemTrigger($id('p2'), 'mouseover', simEvt);
+        equal(getLog(), OUT_LOG);
+        log("", true);
+
+        //p2->null 不触发over 
+        simEvt.fromElement = $id('p2');
+        simEvt.toElement = null;
+        ElemTrigger($id('p2'), 'mouseover', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        evtHelper.clear();
+        //clear什么都不触发
+        simEvt.fromElement = $id('p1');
+        simEvt.toElement = $id('p2');
+        ElemTrigger($id('p2'), 'mouseover', simEvt);
+        equal(getLog(), '');
+        log("", true);
+    });
+
+    test( "mouseout event", function() {
+        var OUT_LOG = 'p2-mouseout';
+        var p2out = evtHelper.on('p2:mouseout', function(){
+            log(OUT_LOG);
+        });
+        //p1->p2不触发out
+        simEvt.fromElement = $id('p1');
+        simEvt.toElement = $id('p2');
+        ElemTrigger($id('p2'), 'mouseout', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        //p2->p3不触发out 
+        simEvt.fromElement = $id('p2');
+        simEvt.toElement = $id('p3');
+        ElemTrigger($id('p2'), 'mouseout', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        //p3->p2不触发out 
+        simEvt.fromElement = $id('p3');
+        simEvt.toElement = $id('p2');
+        ElemTrigger($id('p2'), 'mouseout', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        //p2->p1触发out 
+        simEvt.fromElement = $id('p2');
+        simEvt.toElement = $id('p1');
+        ElemTrigger($id('p2'), 'mouseout', simEvt);
+        equal(getLog(), OUT_LOG);
+        log("", true);
+
+        //null->p2不触发out 
+        simEvt.fromElement = null;
+        simEvt.toElement = $id('p2');
+        ElemTrigger($id('p2'), 'mouseout', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        //p2->null 触发out 
+        simEvt.fromElement = $id('p2');
+        simEvt.toElement = null;
+        ElemTrigger($id('p2'), 'mouseout', simEvt);
+        equal(getLog(), OUT_LOG);
+        log("", true);
+
+        evtHelper.clear();
+        //clear什么都不触发
+        simEvt.fromElement = $id('p2');
+        simEvt.toElement = null;
+        ElemTrigger($id('p2'), 'mouseout', simEvt);
+        equal(getLog(), '');
+        log("", true);
+    });
+
+    test( "focus event", function() {
+        var i1focus = evtHelper.on('i1:focus', function(){
+            log('i1-focus');
+        });
+        var i2focus = evtHelper.on('i2:focus', function(){
+            log('i2-focus');
+        });
+        var i3focus = evtHelper.on('i3:focus', function(){
+            log('i3-focus');
+        });
+        ElemTrigger($id('i1'), 'focus', simEvt);
+        equal(getLog(), 'i1-focus');
+        log("", true);
+
+        ElemTrigger($id('i2'), 'focus', simEvt);
+        equal(getLog(), 'i2-focus');
+        log("", true);
+
+        ElemTrigger($id('i3'), 'focus', simEvt);
+        equal(getLog(), 'i3-focus');
+        log("", true);
+
+        evtHelper.clear();
+        ElemTrigger($id('i1'), 'focus', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        ElemTrigger($id('i2'), 'focus', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        ElemTrigger($id('i3'), 'focus', simEvt);
+        equal(getLog(), '');
+        log("", true);
+    });
+
+    test( "blur event", function() {
+        var i1focus = evtHelper.on('i1:blur', function(){
+            log('i1-blur');
+        });
+        var i2focus = evtHelper.on('i2:blur', function(){
+            log('i2-blur');
+        });
+        var i3focus = evtHelper.on('i3:blur', function(){
+            log('i3-blur');
+        });
+        ElemTrigger($id('i1'), 'blur', simEvt);
+        equal(getLog(), 'i1-blur');
+        log("", true);
+
+        ElemTrigger($id('i2'), 'blur', simEvt);
+        equal(getLog(), 'i2-blur');
+        log("", true);
+
+        ElemTrigger($id('i3'), 'blur', simEvt);
+        equal(getLog(), 'i3-blur');
+        log("", true);
+
+        evtHelper.clear();
+        ElemTrigger($id('i1'), 'blur', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        ElemTrigger($id('i2'), 'blur', simEvt);
+        equal(getLog(), '');
+        log("", true);
+
+        ElemTrigger($id('i3'), 'blur', simEvt);
+        equal(getLog(), '');
+        log("", true);
+    });
+
+    test( "stopPropagation config", function() {
+        var p1Click = evtHelper.on('p1:click', function(){
+            log('p1-click');
+        });
+        var p2Click = evtHelper.on('p2:click/stopPropagation', function(){
+            log('p2-click');
+        });
+        var p3Click = evtHelper.on('p3:click', function(){
+            log('p3-click');
+        });
+        //3->2 stop
+        ElemTrigger($id('p3'), 'click', simEvt);
+        equal(getLog(), 'p3-clickp2-click');
+        log("", true);
+
+        //2 stop
+        ElemTrigger($id('p2'), 'click', simEvt);
+        equal(getLog(), 'p2-click');
+        log("", true);
+
+        evtHelper.off('p2:click');
+        //3->1 
+
+        ElemTrigger($id('p3'), 'click', simEvt);
+        equal(getLog(), 'p3-clickp1-click');
+        log("", true);
+
+        evtHelper.clear();
+        //none after clear
+        ElemTrigger($id('p3'), 'click', simEvt);
+        equal(getLog(), '');
+        log("", true);
+    });
+
+    test( "self config", function() {
+        var p1Click = evtHelper.on('p1:click', function(){
+            log('p1-click');
+        });
+        var p2Click = evtHelper.on('p2:click/self', function(){
+            log('p2-click');
+        });
+        var p3Click = evtHelper.on('p3:click', function(){
+            log('p3-click');
+        });
+        //3->2(jump)->1
+        ElemTrigger($id('p3'), 'click', simEvt);
+        equal(getLog(), 'p3-clickp1-click');
+        log("", true);
+
+        //2->1
+        ElemTrigger($id('p2'), 'click', simEvt);
+        equal(getLog(), 'p2-clickp1-click');
+        log("", true);
+
+        evtHelper.clear();
+    });
+
+    test( "self + stopPropagation config", function() {
+        var p1Click = evtHelper.on('p1:click', function(){
+            log('p1-click');
+        });
+        var p2Click = evtHelper.on('p2:click/self/stopPropagation', function(){
+            log('p2-click');
+        });
+        var p3Click = evtHelper.on('p3:click', function(){
+            log('p3-click');
+        });
+        //3->2(jump&&stop) 只有执行成功了，stopPropagation才可能生效
+        ElemTrigger($id('p3'), 'click', simEvt);
+        equal(getLog(), 'p3-clickp1-click');
+        log("", true);
+
+        //2(stop)
+        ElemTrigger($id('p2'), 'click', simEvt);
+        equal(getLog(), 'p2-click');
+        log("", true);
+
+        evtHelper.clear();
+    });
+
+    test( "preventDefault config", function() {
+        var l1Click = evtHelper.on('l1:click/preventDefault', function(){
+            log('l1-click');
+        });
+        // ElemTrigger($id('p2'), 'click', simEvt);
+        // if failing will alert
+        $id('l1').click();
+        equal($id('l1').innerHTML, '1');
+        log("", true);
+        evtHelper.clear();
+    });
+
+    test( "form submit", function() {
+        window.defaultSubmit = function(){
+            log('form submit default');
+        };
+        var l1Click = evtHelper.on('formSubmit:submit', function(){
+            log('help submit');
+        });
+        simEvt.keyCode = 13;
+        //通过keypress能够正确触发submit事件
+        ElemTrigger($id('form_input'), 'keypress', simEvt);
+        // if failing will alert
+        // $id('l1').click();
+        equal(getLog(), 'help submit');
+        log("", true);
+        simEvt.keyCode = 15;
+        //错误的keycode 不能触发submit事件
+        ElemTrigger($id('form_input'), 'keypress', simEvt);
+        equal(getLog(), '');
+        evtHelper.clear();
+        log("", true);
+    });
+
+
+</script>

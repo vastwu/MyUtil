@@ -1,0 +1,824 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - ContentStyle</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 13px Helvetica, arial, freesans, clean, sans-serif;
+	width: 950px;
+	margin:0 auto;
+	position: relative;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	background-color: #F8F8F8;
+	border: 1px solid #CCC;
+	margin-left:auto;
+	margin-right:auto;
+	width:635px;
+}
+
+#index
+{
+	margin-top: 55px;
+	float: left;
+	width: 200px;
+	position: absolute;
+	left: 8px;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 250px;
+	width: 700px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	font-family: arial, sans-serif;
+	font-size: 14px;
+	overflow: auto;
+	font-weight: normal;
+	margin-top:-1px;
+	border-top: 1px solid #DDD;
+}
+
+.classList li{	
+	padding: 8px 10px;
+	border-radius: 3px;	
+	margin:3px 0;
+}
+.classList a{
+	color: #777;
+	text-decoration: none;
+}
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #CACACA;
+	background-image: -webkit-linear-gradient(#EFEFEF, #CACACA);
+	color: #555;
+	font-size:130%;
+	text-align: left;
+	padding: 10px;
+	font-size:16px;
+	text-shadow: 0 1px 0 white;
+	border: 1px solid #CACACA;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #CACACA solid;
+	border-right: 1px #CACACA solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #CACACA solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	margin-right: 20px; 
+	line-height: 20px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+.left-title{
+	border-radius: 3px 3px 0 0;
+	color: #333;
+	font-weight: bold;
+	padding: 8px 12px;
+	border: 1px solid #DDD;
+	border-bottom: 0;
+	font-size: 14px;
+	color: #666;
+	text-decoration: none;
+	width:80px;
+	margin-bottom: 0;
+	position: relative;
+	background-color:white;
+	text-align: center;
+}
+.method-one{
+	margin:30px 0;
+	border: 1px solid #EAEAEA;
+}
+.method-name{
+	height:30px;
+	line-height:30px;
+	padding: 0 0 0 10px;
+	font-size: 16px;
+	color: #333;
+	border-bottom: 1px solid #DDD;
+	color: #4183C4;
+	border-bottom: 2px solid #CFDCE8;
+	background-color: #DCE6EF;
+	background-image: -webkit-linear-gradient(#FAFBFD, #DCE6EF);
+}
+
+.method-name b{
+	margin-right:8px;
+}
+.method-desc{
+	margin: 13px auto 0;
+	width: 635px;
+	font-size: 12px;
+	color: #333;
+	padding-left:20px;
+	line-height:28px;
+}
+			.ContentStyle_index{
+				background: #4183C4;
+			}
+			.ContentStyle_index a{
+				color:white;
+			}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+
+<h2 class="left-title">Classes</h2>
+<ul class="classList">
+	
+	<li class="_global__index"><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li class="ContentStyle_index"><a href="../symbols/ContentStyle.html">ContentStyle</a></li>
+	
+	<li class="EventHelper_index"><a href="../symbols/EventHelper.html">EventHelper</a></li>
+	
+</ul>
+
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class ContentStyle
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				infowindow内容风格类
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_EventHelper.js.html">EventHelper.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ContentStyle.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/ContentStyle.html#constructor">ContentStyle</a></b>()
+							</div>
+							<div class="description"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ContentStyle.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ContentStyle.html#bindEvent">bindEvent</a></b>(evtHelper, info, overlay, infowindow)
+								</div>
+								<div class="description">构造infowindow的dom元素事件</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ContentStyle.html#getBody">getBody</a></b>(info, STYLE)
+								</div>
+								<div class="description">构造 infowindow 街景图片部分</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ContentStyle.html#getFooter">getFooter</a></b>(info, STYLE)
+								</div>
+								<div class="description">构造 infowindow 工具栏</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ContentStyle.html#getOperate">getOperate</a></b>(info, STYLE)
+								</div>
+								<div class="description">构造 infowindow 右上角的操作按钮</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ContentStyle.html#getRich">getRich</a></b>(info, STYLE)
+								</div>
+								<div class="description">构造 infowindow rich数据</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ContentStyle.html#getTitle">getTitle</a></b>(info, STYLE)
+								</div>
+								<div class="description">构造 infowindow title</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ContentStyle.html#override">override</a></b>(methodName, handler)
+								</div>
+								<div class="description">复写接口,会在this上保存一份最后一次覆盖前的函数</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>ContentStyle</b>()
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+				<div class="method-one">
+					<a name="bindEvent"> </a>
+					<div class="method-name">
+					
+					<b>bindEvent</b>(evtHelper, info, overlay, infowindow)
+					
+					</div>
+					<div class="method-desc">
+						构造infowindow的dom元素事件
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>evtHelper</b>
+									<span class="light fixedFont">{<a href="../symbols/EventHelper.html">EventHelper</a>}</span> 
+									
+								</dt>
+								<dd>该infowindow的事件绑定辅助对象</dd>
+							
+								<dt>
+									<b>info</b>
+									<span class="light fixedFont">{Object}</span> 
+									
+								</dt>
+								<dd>poiInfo</dd>
+							
+								<dt>
+									<b>overlay</b>
+									<span class="light fixedFont">{Overlay|LatLng}</span> 
+									
+								</dt>
+								<dd>该infowindow依附的overlay,对于无依附overlay的是position</dd>
+							
+								<dt>
+									<b>infowindow</b>
+									<span class="light fixedFont">{Object}</span> 
+									
+								</dt>
+								<dd>infowindow组件对象</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				</div>
+				
+				<div class="method-one">
+					<a name="getBody"> </a>
+					<div class="method-name">
+					
+					<b>getBody</b>(info, STYLE)
+					
+					</div>
+					<div class="method-desc">
+						构造 infowindow 街景图片部分
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>info</b>
+									<span class="light fixedFont">{Object}</span> 
+									
+								</dt>
+								<dd>poiInfo</dd>
+							
+								<dt>
+									<b>STYLE</b>
+									<span class="light fixedFont">{<a href="../symbols/ContentStyle.html">ContentStyle</a>}</span> 
+									
+								</dt>
+								<dd>已预注册的style模板</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> 要插入的html字符串</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				</div>
+				
+				<div class="method-one">
+					<a name="getFooter"> </a>
+					<div class="method-name">
+					
+					<b>getFooter</b>(info, STYLE)
+					
+					</div>
+					<div class="method-desc">
+						构造 infowindow 工具栏
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>info</b>
+									<span class="light fixedFont">{Object}</span> 
+									
+								</dt>
+								<dd>poiInfo</dd>
+							
+								<dt>
+									<b>STYLE</b>
+									<span class="light fixedFont">{<a href="../symbols/ContentStyle.html">ContentStyle</a>}</span> 
+									
+								</dt>
+								<dd>已预注册的style模板</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> 要插入的html字符串</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				</div>
+				
+				<div class="method-one">
+					<a name="getOperate"> </a>
+					<div class="method-name">
+					
+					<b>getOperate</b>(info, STYLE)
+					
+					</div>
+					<div class="method-desc">
+						构造 infowindow 右上角的操作按钮
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>info</b>
+									<span class="light fixedFont">{Object}</span> 
+									
+								</dt>
+								<dd>poiInfo</dd>
+							
+								<dt>
+									<b>STYLE</b>
+									<span class="light fixedFont">{<a href="../symbols/ContentStyle.html">ContentStyle</a>}</span> 
+									
+								</dt>
+								<dd>已预注册的style模板</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> 要插入的html字符串</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				</div>
+				
+				<div class="method-one">
+					<a name="getRich"> </a>
+					<div class="method-name">
+					
+					<b>getRich</b>(info, STYLE)
+					
+					</div>
+					<div class="method-desc">
+						构造 infowindow rich数据
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>info</b>
+									<span class="light fixedFont">{Object}</span> 
+									
+								</dt>
+								<dd>poiInfo</dd>
+							
+								<dt>
+									<b>STYLE</b>
+									<span class="light fixedFont">{<a href="../symbols/ContentStyle.html">ContentStyle</a>}</span> 
+									
+								</dt>
+								<dd>已预注册的style模板</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> 要插入的html字符串</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				</div>
+				
+				<div class="method-one">
+					<a name="getTitle"> </a>
+					<div class="method-name">
+					
+					<b>getTitle</b>(info, STYLE)
+					
+					</div>
+					<div class="method-desc">
+						构造 infowindow title
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>info</b>
+									<span class="light fixedFont">{Object}</span> 
+									
+								</dt>
+								<dd>poiInfo</dd>
+							
+								<dt>
+									<b>STYLE</b>
+									<span class="light fixedFont">{<a href="../symbols/ContentStyle.html">ContentStyle</a>}</span> 
+									
+								</dt>
+								<dd>已预注册的style模板</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> 要插入的html字符串</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				</div>
+				
+				<div class="method-one">
+					<a name="override"> </a>
+					<div class="method-name">
+					
+					<b>override</b>(methodName, handler)
+					
+					</div>
+					<div class="method-desc">
+						复写接口,会在this上保存一份最后一次覆盖前的函数
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>methodName</b>
+									<span class="light fixedFont">{[type]}</span> 
+									
+								</dt>
+								<dd>[description]</dd>
+							
+								<dt>
+									<b>handler</b>
+									<span class="light fixedFont">{[type]}</span> 
+									
+								</dt>
+								<dd>复写函数</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{[type]}</span> [description]</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				</div>
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2 on Wed Mar 20 2013 01:02:18 GMT+0800 (CST)
+		</div>
+	</body>
+</html>

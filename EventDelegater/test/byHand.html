@@ -1,0 +1,213 @@
+<head>
+    <meta charset="utf-8"/>
+</head>
+<style type="text/css">
+.main{
+    border:1px solid black;
+    width:700px;
+    height:350px;
+    color:white;
+}
+.title{
+    background-color:blue;
+    height:50px;
+    line-height: 50px;
+    text-align: center;
+}
+.content{
+    background-color:gray;
+    height:200px;
+}
+.footer{
+    background-color:gray;
+    height:100px;
+    background-color:#888;
+}
+.left{
+    float:left;
+    height:100%;
+    width:400px;
+    background-color:#A00;
+}
+.right{
+    margin-left:400px;
+    height:100%;
+    width:300px;
+    background-color:#0AB;
+}
+.left .sub,
+.right .sub,
+.footer .sub{
+    margin:10px 0 0 100px;
+    width:100px;
+    height:60px;
+    background-color:#F0F;
+    line-height:60px;
+    text-align: center;
+}
+.desription{
+    color:gray;
+    line-height: 22px;
+    font-size:14px;
+}
+#logPanel{
+    height:300px;
+    border:1px solid blue;
+    overflow: auto;
+}
+#logPanel p{
+    margin:0;
+    font-size: 14px;
+    line-height:24px;
+    width:50%;
+}
+</style>
+
+<body>
+    <div>
+        <h2>EventHelper示例</h2>
+        <ul class="desription">
+            <li>所有绑定代码均在页面上,可以直接查看</li>
+            <li>示例中包含了click,mouseover,mouseout和嵌套使用的场景</li>
+            <li>左侧区域的click事件为常规的冒泡传递效果,父子容器一同响应</li>
+            <li>右侧区域的click事件为子容器阻止冒泡的效果,子容器事件不传递给父容器</li>
+            <li>底部区域的click事件为父容器不接受冒泡的效果,父容器仅精确响应自身被触发时的事件</li>
+            <li>有部分清除事件的示例</li>
+        </ul>
+    </div>
+    <div>
+        <input type='button' value='清除左侧单击事件(不包括子容器)' onclick="removeTest(1)" />
+        <input type='button' value='清除左侧所有事件(不包括子容器)' onclick="removeTest(2)" />
+        <input type='button' value='返回值方式清除右侧子容器单击事件' onclick="removeTest(3)" />
+        <input type='button' value='清除以eventHelper绑定的所有事件' onclick="removeTest(4)" />
+    </div>
+    <div id="logPanel"></div>
+    <input type="button" value="清空log" onclick="clearlog();" />
+    <div id="main" class="main">
+        <div class="title" ek="title">标题区域</div>
+        <div class="content" ek="content">
+            <div class="left" ek="left">
+                <div>左侧</div>
+                <form ek="listenSubmit" onsubmit="return false;">
+                    <div><div>
+                        <input name="aa" type="hidden" value="i am aa" />
+                        <input type="text" />
+                    </div></div>
+                </form>
+                <div class="sub" ek="leftsub">左侧子容器</div>
+            </div>
+            <div class="right" ek="right">
+                <div>右侧</div>
+                <div class="sub" ek="rightsub">右侧子容器</div>
+            </div>
+        </div>
+        <div class="footer" ek="footer">
+            <div>底部</div>
+            <div class="sub" ek="footersub">底部子容器</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../src/EventHelper.js"></script>
+</body>
+
+<script type="text/javascript">
+    /*输出操作log*/
+    var container = document.getElementById('logPanel');
+    var echo = function(text){
+        var p = document.createElement('p');
+        var timestmp = new Date();
+        p.innerHTML = 'timestmp:' + timestmp.getMinutes() + ':' + timestmp.getSeconds() + ':' + text;
+        container.insertBefore(p,container.firstChild);
+    };
+    var clearlog = function(){
+        container.innerHTML = "";
+    };
+    /*实例化evtHelp对象*/
+    var evtHelper = new EventHelper(document.getElementById('main'));
+    echo('绑定-<span style="color:blue;">标题区域</span>-click事件');
+    evtHelper.on('title:click', function(evt){
+        echo('单击-<span style="color:blue;">标题区域</span>');
+    });
+
+    echo('绑定-<span style="color:#A00;">左侧</span>-mouseover');
+    evtHelper.on('left:mouseover', function(evt){
+        echo('进入-<span style="color:#A00;">左侧</span>');
+    });
+
+    echo('绑定-<span style="color:#A00;">左侧</span>-mouseout');
+    evtHelper.on('left:mouseout', function(evt){
+        echo('离开-<span style="color:#A00;">左侧</span>');
+    });
+
+    echo('绑定-<span style="color:#A00;">左侧</span>-click');
+    evtHelper.on('left:click', function(evt){
+        echo('单击-<span style="color:#A00;">左侧</span>');
+    });
+
+    echo('绑定-<span style="color:magenta;">左侧子容器</span>-mouseover');
+    evtHelper.on('leftsub:mouseover', function(evt){
+        echo('进入-<span style="color:magenta;">左侧子容器</span>');
+    });
+
+    echo('绑定-<span style="color:magenta;">左侧子容器</span>-click');
+    evtHelper.on('leftsub:click', function(evt){
+        echo('单击-<span style="color:magenta;">左侧子容器</span>');
+    });
+    //右侧对照组
+    echo('绑定-<span style="color:#0AB;">右侧</span>--mouseover');
+    evtHelper.on('right:mouseover', function(evt){
+        echo('进入-<span style="color:#0AB;">右侧</span>');
+    });
+
+    echo('绑定-<span style="color:#0AB;">右侧</span>-mouseout');
+    evtHelper.on('right:mouseout', function(evt){
+        echo('离开-<span style="color:#0AB;">右侧</span>');
+    });
+
+    echo('绑定-<span style="color:#0AB;">右侧</span>-click');
+    evtHelper.on('right:click', function(evt){
+        echo('单击-<span style="color:#0AB;">右侧</span>');
+    });
+    //不会冒泡的点击事件
+    echo('绑定-<span style="color:magenta;">右侧子容器</span>-click,且阻止事件容器内冒泡(事件本身还是会冒泡到事件容器外)');
+    var rct = evtHelper.on('rightsub:click/stopPropagation', function(evt){
+        echo('单击-<span style="color:magenta;">右侧子容器</span>');
+    });
+    //底部对照组
+    //不接受冒泡的父容器点击事件
+    echo('绑定-<span style="color:#0AB;">底部</span>-click');
+    evtHelper.on('footer:click/self', function(evt){
+        echo('单击-<span style="color:#888;">底部</span>');
+    }); 
+    //不会冒泡的点击事件
+    echo('绑定-<span style="color:magenta;">底部子容器</span>-click');
+    var rct = evtHelper.on('footersub:click', function(evt){
+        echo('单击-<span style="color:magenta;">底部子容器</span>');
+    });
+    echo('<------------事件绑定结束------------>');
+    var removeTest = function(n){
+        switch (n){
+            case 1:
+                evtHelper.off('left:click');
+                echo('<span style="color:A00;">左侧</span>点击事件清除');
+                break;
+            case 2:
+                evtHelper.off('left:*');
+                echo('<span style="color:A00;">左侧</span>所有事件清除');
+                break;
+            case 3:
+                evtHelper.off(rct);
+                echo('<span style="color:magenta;">右侧子容器</span>单击事件清除');
+                break;
+            case 4:
+                evtHelper.clear();
+                echo('EventHelper实例所有事件清除');
+                break;
+        }
+    };
+
+    //提交事件
+    var rct = evtHelper.on('listenSubmit:submit', function(evt){
+        debugger
+        echo('提交事件' + this.aa.value);
+    });
+</script>

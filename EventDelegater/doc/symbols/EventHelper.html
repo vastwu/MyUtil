@@ -1,0 +1,621 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - EventHelper</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 13px Helvetica, arial, freesans, clean, sans-serif;
+	width: 950px;
+	margin:0 auto;
+	position: relative;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	background-color: #F8F8F8;
+	border: 1px solid #CCC;
+	margin-left:auto;
+	margin-right:auto;
+	width:635px;
+}
+
+#index
+{
+	margin-top: 55px;
+	float: left;
+	width: 200px;
+	position: absolute;
+	left: 8px;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 250px;
+	width: 700px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	font-family: arial, sans-serif;
+	font-size: 14px;
+	overflow: auto;
+	font-weight: normal;
+	margin-top:-1px;
+	border-top: 1px solid #DDD;
+}
+
+.classList li{	
+	padding: 8px 10px;
+	border-radius: 3px;	
+	margin:3px 0;
+}
+.classList a{
+	color: #777;
+	text-decoration: none;
+}
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #CACACA;
+	background-image: -webkit-linear-gradient(#EFEFEF, #CACACA);
+	color: #555;
+	font-size:130%;
+	text-align: left;
+	padding: 10px;
+	font-size:16px;
+	text-shadow: 0 1px 0 white;
+	border: 1px solid #CACACA;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #CACACA solid;
+	border-right: 1px #CACACA solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #CACACA solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	margin-right: 20px; 
+	line-height: 20px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+.left-title{
+	border-radius: 3px 3px 0 0;
+	color: #333;
+	font-weight: bold;
+	padding: 8px 12px;
+	border: 1px solid #DDD;
+	border-bottom: 0;
+	font-size: 14px;
+	color: #666;
+	text-decoration: none;
+	width:80px;
+	margin-bottom: 0;
+	position: relative;
+	background-color:white;
+	text-align: center;
+}
+.method-one{
+	margin:30px 0;
+	border: 1px solid #EAEAEA;
+}
+.method-name{
+	height:30px;
+	line-height:30px;
+	padding: 0 0 0 10px;
+	font-size: 16px;
+	color: #333;
+	border-bottom: 1px solid #DDD;
+	color: #4183C4;
+	border-bottom: 2px solid #CFDCE8;
+	background-color: #DCE6EF;
+	background-image: -webkit-linear-gradient(#FAFBFD, #DCE6EF);
+}
+
+.method-name b{
+	margin-right:8px;
+}
+.method-desc{
+	margin: 13px auto 0;
+	width: 635px;
+	font-size: 12px;
+	color: #333;
+	padding-left:20px;
+	line-height:28px;
+}
+			.EventHelper_index{
+				background: #4183C4;
+			}
+			.EventHelper_index a{
+				color:white;
+			}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+
+<h2 class="left-title">Classes</h2>
+<ul class="classList">
+	
+	<li class="_global__index"><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li class="ContentStyle_index"><a href="../symbols/ContentStyle.html">ContentStyle</a></li>
+	
+	<li class="EventHelper_index"><a href="../symbols/EventHelper.html">EventHelper</a></li>
+	
+</ul>
+
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class EventHelper
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				js代理事件辅助类，用于帮助构建dom树事件代理
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/src_EventHelper.js.html">EventHelper.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class EventHelper.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/EventHelper.html#constructor">EventHelper</a></b>(container, option)
+							</div>
+							<div class="description"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class EventHelper.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/EventHelper.html#clear">clear</a></b>()
+								</div>
+								<div class="description">清除所有事件和监听</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/EventHelper.html#off">off</a></b>(listnerCommand)
+								</div>
+								<div class="description">移除事件监听</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/EventHelper.html#on">on</a></b>(listnerCommand, handler)
+								</div>
+								<div class="description">绑定代理事件,在此绑定的事件,不会随着子元素消失而消失,只要存在匹配evtAttr的dom元素,就会触发</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/EventHelper.html#trigger">trigger</a></b>(evtKey, evtType, args)
+								</div>
+								<div class="description">触发事件,不会改变this作用域，也没有冒泡的对应处理，仅仅会执行匹配的函数</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>EventHelper</b>(container, option)
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{HTMLElement}</span>  <b>container</b>
+								
+							</dt>
+								<dd>dom事件代理顶级元素,所有的事件均由此元素捕获</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>option</b>
+								<i>Optional</i>
+							</dt>
+								<dd>配置项</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>option.evtAttr</b>
+								<i>Optional, Default: ek</i>
+							</dt>
+								<dd>触发事件的元素标记属性名,只有携带次属性的元素才会响应事件</dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+				<div class="method-one">
+					<a name="clear"> </a>
+					<div class="method-name">
+					
+					<b>clear</b>()
+					
+					</div>
+					<div class="method-desc">
+						清除所有事件和监听
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					
+				</div>
+				
+				<div class="method-one">
+					<a name="off"> </a>
+					<div class="method-name">
+					
+					<b>off</b>(listnerCommand)
+					
+					</div>
+					<div class="method-desc">
+						移除事件监听
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>listnerCommand</b>
+									<span class="light fixedFont">{String}</span> 
+									
+								</dt>
+								<dd>移除事件监听的命令，支持以下几种类型                 on 的返回值，用于精确移除指定的监听函数                 eventKey/*   移除该eventKey下的所有类型事件监听                 eventKey/eventType 移除该eventKey下的eventType的事件类型监听</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				</div>
+				
+				<div class="method-one">
+					<a name="on"> </a>
+					<div class="method-name">
+					
+					<b>on</b>(listnerCommand, handler)
+					
+					</div>
+					<div class="method-desc">
+						绑定代理事件,在此绑定的事件,不会随着子元素消失而消失,只要存在匹配evtAttr的dom元素,就会触发
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">    var listeners =     evtHelper.on('nameLabel:click/stopPropagation;phoneLabel:click', function(e){        });</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>listnerCommand</b>
+									<span class="light fixedFont">{String}</span> 
+									
+								</dt>
+								<dd>绑定代理事件的命令行, 基础语法为 evtKey:evtType/config1/config2...., 且支持以';'分割的多重事件绑定统一的函数                            config支持项             stopPropagation 阻止继续触发父元素事件，子元素的所有冒泡均会截止至次             preventDefault  阻止浏览器的默认事件             self 仅响应直接触发自身的情况，不冒泡，但也不会阻止子元素的冒泡</dd>
+							
+								<dt>
+									<b>handler</b>
+									<span class="light fixedFont">{Function}</span> 
+									
+								</dt>
+								<dd>事件响应函数</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String | String[]}</span> 删除该事件依据的参数,若listnerCommand包含多个命令,则会返回这些命令的listener的数组</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				</div>
+				
+				<div class="method-one">
+					<a name="trigger"> </a>
+					<div class="method-name">
+					
+					<b>trigger</b>(evtKey, evtType, args)
+					
+					</div>
+					<div class="method-desc">
+						触发事件,不会改变this作用域，也没有冒泡的对应处理，仅仅会执行匹配的函数
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>evtKey</b>
+									<span class="light fixedFont">{[type]}</span> 
+									
+								</dt>
+								<dd>事件key</dd>
+							
+								<dt>
+									<b>evtType</b>
+									<span class="light fixedFont">{[type]}</span> 
+									
+								</dt>
+								<dd>事件类型</dd>
+							
+								<dt>
+									<b>args</b>
+									<span class="light fixedFont">{[type]}</span> 
+									
+								</dt>
+								<dd>需要传入的参数,数组形式,且真实的参数首个为null,填充event的位置,使得被执行函数可以知道是来源于trigger</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				</div>
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2 on Wed Mar 20 2013 01:02:18 GMT+0800 (CST)
+		</div>
+	</body>
+</html>
