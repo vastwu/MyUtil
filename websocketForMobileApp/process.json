@@ -1,0 +1,13 @@
+{
+  "apps": [{
+    "name"        : "SocketDebug",
+    "script"      : "lib/index.js",
+    "watch"       : ["lib/*.js"],
+    "max_memory_restart": "400M",
+    "args":"--color",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": "4444"
+    }
+  }]
+}
